@@ -27,8 +27,11 @@ def getDiff(mess, coded):
         key.append(str(num))
     return ". ".join(key)
 
-def makeSound(numbers):
-    os.system("say -o temp/numbers.wav --data-format=LEF32@7500 " + numbers + " && ffmpeg -y -v 0 -i temp/numbers.wav temp/numbers.mp3 && ffmpeg -y -v 0 -f concat -i list.txt -c copy temp/catnums.mp3 && ffmpeg -y -v 0 -i temp/catnums.mp3 -i sounds/longnoise.mp3 -filter_complex amerge output.mp3 && rm temp/numbers.wav temp/numbers.mp3 temp/catnums.mp3")
+def getReader():
+    return random.choice([line.rstrip('\n') for line in open('readers.txt')])
+
+def makeSound(numbers, reader):
+    os.system("say -v " + reader + " -o temp/numbers.wav --data-format=LEF32@7500 " + numbers + " && ffmpeg -y -v 0 -i temp/numbers.wav temp/numbers.mp3 && ffmpeg -y -v 0 -f concat -i list.txt -c copy temp/catnums.mp3 && ffmpeg -y -v 0 -i temp/catnums.mp3 -i sounds/longnoise.mp3 -filter_complex amerge output.mp3 && rm temp/numbers.wav temp/numbers.mp3 temp/catnums.mp3")
 
 message = cleanse(sys.argv[1])
 message_nums = getNums(message)
@@ -43,6 +46,6 @@ coded_nums = getNums(coded_message)
 
 print coded_message
 
-makeSound(getDiff(message_nums, coded_nums))
+makeSound(getDiff(message_nums, coded_nums), getReader())
 
 print getDiff(message_nums, coded_nums)
