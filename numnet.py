@@ -28,24 +28,60 @@ def getDiff(mess, coded):
     return ". ".join(key)
 
 def getReader():
-    return random.choice([line.rstrip('\n') for line in open('readers.txt')])
+    return random.choice([line.rstrip('\n') for line in open('lists/readers.txt')])
 
-def makeSound(numbers, reader):
-    os.system("say -v " + reader + " -o temp/numbers.wav --data-format=LEF32@7500 " + numbers + " && ffmpeg -y -v 0 -i temp/numbers.wav temp/numbers.mp3 && ffmpeg -y -v 0 -f concat -i list.txt -c copy temp/catnums.mp3 && ffmpeg -y -v 0 -i temp/catnums.mp3 -i sounds/longnoise.mp3 -filter_complex amerge output.mp3 && rm temp/numbers.wav temp/numbers.mp3 temp/catnums.mp3")
+def getChime():
+    return random.choice([line.rstrip('\n') for line in open('lists/chimes.txt')])
 
-message = cleanse(sys.argv[1])
-message_nums = getNums(message)
-length = len(message)
+def composeCmd(commands):
+    os.system(" && ".join(commands))
 
-if len(sys.argv) > 2:
-    coded_message = cleanse(sys.argv[2])
-else:
-    coded_message = randString(length)
+def createListFile(chime):
+    f = open('.temp/list.txt', 'w')
+    order = [
+        "file '../sounds/" + chime + "'",
+        "file 'numbers.mp3'",
+        "file '../sounds/" + chime + "'",
+        "file 'numbers.mp3'",
+        "file '../sounds/" + chime + "'"
+    ]
+    for item in order:
+        f.write("%s\n" % item)
+    f.close()
 
-coded_nums = getNums(coded_message)
+def makeSound(numbers, reader, chime):
+    createListFile(chime)
+    composeCmd([
+        "say -r 20 -v " + reader + " -o .temp/numbers.wav --data-format=LEF32@7500 " + numbers,
+        "ffmpeg -y -v 0 -i .temp/numbers.wav .temp/numbers.mp3",
+        "ffmpeg -y -v 0 -f concat -i .temp/list.txt -c copy .temp/catnums.mp3",
+        "ffmpeg -y -v 0 -i .temp/catnums.mp3 -i sounds/longnoise.mp3 -filter_complex amerge output.mp3"
+    ])
+    
+def makeTempDir():
+    os.system('mkdir .temp')
 
-print coded_message
+def rmTempDir():
+    os.system('rm -rf .temp')
 
-makeSound(getDiff(message_nums, coded_nums), getReader())
+def mainSteps():
+    makeTempDir()
 
-print getDiff(message_nums, coded_nums)
+    message = cleanse(sys.argv[1])
+    message_nums = getNums(message)
+    length = len(message)
+
+    if len(sys.argv) > 2:
+        coded_message = cleanse(sys.argv[2])
+    else:
+        coded_message = randString(length)
+
+    coded_nums = getNums(coded_message)
+
+    makeSound(getDiff(message_nums, coded_nums), getReader(), getChime())
+    rmTempDir()
+    
+    print coded_message
+    print getDiff(message_nums, coded_nums)
+
+mainSteps()
