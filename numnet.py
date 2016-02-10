@@ -52,8 +52,8 @@ def createListFile(chime):
 def makeSound(numbers, reader, chime):
     createListFile(chime)
     composeCmd([
-        "say -r 20 -v " + reader + " -o .temp/numbers.wav --data-format=LEF32@7500 " + numbers,
-        "ffmpeg -y -v 0 -i .temp/numbers.wav .temp/numbers.mp3",
+        "say -r 60 -v " + reader + " -o .temp/numbers.wav --data-format=LEF32@7500 " + numbers,
+        "ffmpeg -y -v 0 -i .temp/numbers.wav -af \"volume=1.4\" .temp/numbers.mp3",
         "ffmpeg -y -v 0 -f concat -i .temp/list.txt -c copy .temp/catnums.mp3",
         "ffmpeg -y -v 0 -i .temp/catnums.mp3 -i sounds/longnoise.mp3 -filter_complex amerge output.mp3"
     ])
