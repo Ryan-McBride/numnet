@@ -39,11 +39,11 @@ def composeCmd(commands):
 def createListFile(chime):
     f = open('.temp/list.txt', 'w')
     order = [
-        "file '../sounds/" + chime + "'",
+        "file '../sounds/chimes/" + chime + "'",
         "file 'numbers.mp3'",
-        "file '../sounds/" + chime + "'",
+        "file '../sounds/chimes/" + chime + "'",
         "file 'numbers.mp3'",
-        "file '../sounds/" + chime + "'"
+        "file '../sounds/chimes/" + chime + "'"
     ]
     for item in order:
         f.write("%s\n" % item)
