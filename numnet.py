@@ -50,6 +50,8 @@ def createListFile(chime):
     f.close()
 
 def makeSound(numbers, reader, chime):
+    print reader
+    print chime
     createListFile(chime)
     composeCmd([
         "say -r 60 -v " + reader + " -o .temp/numbers.wav --data-format=LEF32@7500 " + numbers,
