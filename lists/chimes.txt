@@ -1,4 +1,0 @@
-bell.mp3
-noauth.mp3
-achtung.mp3
-so.mp3

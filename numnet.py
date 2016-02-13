@@ -27,11 +27,15 @@ def getDiff(mess, coded):
         key.append(str(num))
     return ". ".join(key)
 
+def pickRandomFromFile(filePath):
+    return random.choice([line.rstrip('\n') for line in open(filePath)])
+
 def getReader():
-    return random.choice([line.rstrip('\n') for line in open('lists/readers.txt')])
+    return pickRandomFromFile('readers.txt')
 
 def getChime():
-    return random.choice([line.rstrip('\n') for line in open('lists/chimes.txt')])
+    os.system('ls sounds/chimes > .temp/chimes.txt')
+    return pickRandomFromFile('.temp/chimes.txt')
 
 def composeCmd(commands):
     os.system(" && ".join(commands))
