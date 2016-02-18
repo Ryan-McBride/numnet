@@ -27,11 +27,19 @@ def getDiff(mess, coded):
         key.append(str(num))
     return ". ".join(key)
 
+def pickRandomFromFile(filePath):
+    return random.choice([line.rstrip('\n') for line in open(filePath)])
+
 def getReader():
-    return random.choice([line.rstrip('\n') for line in open('lists/readers.txt')])
+    return pickRandomFromFile('readers.txt')
 
 def getChime():
-    return random.choice([line.rstrip('\n') for line in open('lists/chimes.txt')])
+    os.system('ls sounds/chimes > .temp/chimes.txt')
+    return pickRandomFromFile('.temp/chimes.txt')
+
+def getNoise():
+    os.system('ls sounds/noises > .temp/noises.txt')
+    return pickRandomFromFile('.temp/noises.txt')
 
 def composeCmd(commands):
     os.system(" && ".join(commands))
@@ -49,13 +57,15 @@ def createListFile(chime):
         f.write("%s\n" % item)
     f.close()
 
-def makeSound(numbers, reader, chime):
+def makeSound(numbers, reader, chime, noise):
+    print reader
+    print chime
     createListFile(chime)
     composeCmd([
         "say -r 60 -v " + reader + " -o .temp/numbers.wav --data-format=LEF32@7500 " + numbers,
         "ffmpeg -y -v 0 -i .temp/numbers.wav -af \"volume=1.4\" .temp/numbers.mp3",
         "ffmpeg -y -v 0 -f concat -i .temp/list.txt -c copy .temp/catnums.mp3",
-        "ffmpeg -y -v 0 -i .temp/catnums.mp3 -i sounds/longnoise.mp3 -filter_complex amerge .temp/output.mp3",
+        "ffmpeg -y -v 0 -i .temp/catnums.mp3 -i sounds/noises/" + noise + " -filter_complex amerge output.mp3"
         "curl --form \"upload_data=@.temp/output.mp3\" http://s0.vocaroo.com/media/upload.php"
     ])
     
