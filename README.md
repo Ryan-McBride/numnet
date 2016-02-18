@@ -15,7 +15,7 @@ The one time pad is the encoded message. It will generate a random OTP if one is
 
 The script will output the OTP, then the partnered number key. Incrementing the OTP's by the numbers will decode the message.
 
-The numbers station audio is saved to Output.mp3. If the script is run again it will overwrite the last output, so if you want to save it you have to make a copy.
+The numbers station audio is saved to a temp file and then uploaded to vocaroo so it can be distributed. Once the upload is compete the script will return the JSON from the vocaroo post, containing the url to share, and the delete token.
 
 ## Contribution Guidelines
 
