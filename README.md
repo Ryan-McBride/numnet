@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Ryan-McBride/numnet.png?label=ready&title=Ready)](https://waffle.io/Ryan-McBride/numnet)
 # numnet
 A script that turns a phrase into a [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) and series of numbers. It also creates and uploads to vocaroo an audio file reading the series of numbers, to replicate the sound of a [numbers station.](https://youtu.be/BSxOjXC20Xo?t=19)
 
