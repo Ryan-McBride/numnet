@@ -1,5 +1,5 @@
 # numnet
-A script that turns a phrase into a [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) and series of numbers. It also creates an audio file reading the series of numbers, to replicate the sound of a [numbers station.](https://youtu.be/BSxOjXC20Xo?t=19)
+A script that turns a phrase into a [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) and series of numbers. It also creates and uploads to vocaroo an audio file reading the series of numbers, to replicate the sound of a [numbers station.](https://youtu.be/BSxOjXC20Xo?t=19)
 
 ## OSX Installation
 
