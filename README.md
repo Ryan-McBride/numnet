@@ -18,6 +18,8 @@ The script will output the OTP, then the partnered number key. Incrementing the 
 
 The numbers station audio is saved to a temp file and then uploaded to vocaroo so it can be distributed. Once the upload is compete the script will return the JSON from the vocaroo post, containing the url to share, and the delete token.
 
+Note: Vocaroo deletes uploaded audio after a few months.
+
 ## Contribution Guidelines
 
 I'll merge any contribution that adds better functionality, security, or is sufficiently cool.
