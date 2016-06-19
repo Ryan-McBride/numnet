@@ -8,6 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('message', help='message to be encoded')
 parser.add_argument('--pad', help='one-time pad. if not user, one will be generated')
 parser.add_argument('--voice', help='specify an osx say voice')
+parser.add_argument('--chime', help='specify a chime file')
 parser.add_argument('--output', help="path to save output file. If not specified, file will be uploaded to vocaroo")
 args = parser.parse_args()
 
@@ -56,13 +57,17 @@ def composeCmd(commands):
     os.system(" && ".join(commands))
 
 def createListFile(chime):
+    if(args.chime):
+        chimeFile = "'../" + args.chime + "'"
+    else:
+        chimeFile = "'../sounds/chimes/" + chime + "'"
     f = open('.temp/list.txt', 'w')
     order = [
-        "file '../sounds/chimes/" + chime + "'",
+        "file " + chimeFile,
         "file 'numbers.mp3'",
-        "file '../sounds/chimes/" + chime + "'",
+        "file " + chimeFile,
         "file 'numbers.mp3'",
-        "file '../sounds/chimes/" + chime + "'"
+        "file " + chimeFile,
     ]
     for item in order:
         f.write("%s\n" % item)
