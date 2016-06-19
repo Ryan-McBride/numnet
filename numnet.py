@@ -2,6 +2,15 @@ import sys
 import random
 import string
 import os
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('message', help='message to be encoded')
+parser.add_argument('--pad', help='one-time pad. if not user, one will be generated')
+parser.add_argument('--voice', help='specify an osx say voice')
+parser.add_argument('--chime', help='specify a relative path to an audio file to bbe opening chime')
+parser.add_argument('--output', help="path to save output file. If not specified, file will be uploaded to vocaroo")
+args = parser.parse_args()
 
 def getNums(mess):
     message_code = ""
@@ -31,7 +40,10 @@ def pickRandomFromFile(filePath):
     return random.choice([line.rstrip('\n') for line in open(filePath)])
 
 def getReader():
-    return pickRandomFromFile('readers.txt')
+    if(args.voice):
+        return args.voice
+    else:
+        return pickRandomFromFile('readers.txt')
 
 def getChime():
     os.system('ls sounds/chimes > .temp/chimes.txt')
