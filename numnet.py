@@ -8,7 +8,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('message', help='message to be encoded')
 parser.add_argument('--pad', help='one-time pad. if not user, one will be generated')
 parser.add_argument('--voice', help='specify an osx say voice')
-parser.add_argument('--chime', help='specify a relative path to an audio file to bbe opening chime')
 parser.add_argument('--output', help="path to save output file. If not specified, file will be uploaded to vocaroo")
 args = parser.parse_args()
 
@@ -70,13 +69,19 @@ def createListFile(chime):
     f.close()
 
 def makeSound(numbers, reader, chime, noise):
+    if args.output:
+        output = args.output
+        upload = 'echo "file saved to ' + args.output + '"'
+    else:
+        output = '.temp/output.mp3'
+        upload = 'curl --form \"upload_data=@.temp/output.mp3\" http://s0.vocaroo.com/media/upload.php'
     createListFile(chime)
     composeCmd([
         "say -r 60 -v " + reader + " -o .temp/numbers.wav --data-format=LEF32@7500 " + numbers,
         "ffmpeg -y -v 0 -i .temp/numbers.wav -af \"volume=1.7\" .temp/numbers.mp3",
         "ffmpeg -y -v 0 -f concat -safe 0 -i .temp/list.txt -c copy .temp/catnums.mp3",
-        "ffmpeg -y -v 0 -i .temp/catnums.mp3 -i sounds/noises/" + noise + " -filter_complex amerge .temp/output.mp3",
-        "curl --form \"upload_data=@.temp/output.mp3\" http://s0.vocaroo.com/media/upload.php"
+        "ffmpeg -y -v 0 -i .temp/catnums.mp3 -i sounds/noises/" + noise + " -filter_complex amerge " + output,
+        upload
     ])
     
 def makeTempDir():
@@ -92,8 +97,8 @@ def mainSteps():
     message_nums = getNums(message)
     length = len(message)
 
-    if len(sys.argv) > 2:
-        coded_message = cleanse(sys.argv[2])
+    if args.pad:
+        coded_message = cleanse(args.pad)
     else:
         coded_message = randString(length)
 
