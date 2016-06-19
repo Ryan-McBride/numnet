@@ -62,7 +62,7 @@ def makeSound(numbers, reader, chime, noise):
     composeCmd([
         "say -r 60 -v " + reader + " -o .temp/numbers.wav --data-format=LEF32@7500 " + numbers,
         "ffmpeg -y -v 0 -i .temp/numbers.wav -af \"volume=1.7\" .temp/numbers.mp3",
-        "ffmpeg -y -v 0 -f concat -i .temp/list.txt -c copy .temp/catnums.mp3",
+        "ffmpeg -y -v 0 -f concat -safe 0 -i .temp/list.txt -c copy .temp/catnums.mp3",
         "ffmpeg -y -v 0 -i .temp/catnums.mp3 -i sounds/noises/" + noise + " -filter_complex amerge .temp/output.mp3",
         "curl --form \"upload_data=@.temp/output.mp3\" http://s0.vocaroo.com/media/upload.php"
     ])
