@@ -23,16 +23,21 @@ Note: Vocaroo deletes uploaded audio after a few months.
 ## Command Flags
 
 --pad Specify custom one-time pad
+
 `$ python numnet.py "hello" --pad "UUFSE"`
 
 --voice Specify an OSX say voice
+
 `$ python numnet.py "imdabes" --voice "Agnes"`
+
 a list of available voices can be seen by running `$ say -v '?'`
 
 --chime Specify a custom chime to use. If not provided, a random built in chime will be used. use path relative to numnet directory.
+
 `$ python numnet.py "pizza time" --chime "./totinos.mp3"`
 
 --output Specify a destination for the output file. If not used, a temp file will be created and uploaded to vocaroo (feels more like a broadcast that way)
+
 `$ python numnet.py "remember trix yogurt?" --output "myBroadcast.mp3"`
 
 
