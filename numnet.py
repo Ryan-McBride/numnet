@@ -58,7 +58,10 @@ def composeCmd(commands):
 
 def createListFile(chime):
     if(args.chime):
-        chimeFile = "'../" + args.chime + "'"
+        if(args.chime[0] == "/"):
+            chimeFile = args.chime
+        else:
+            chimeFile = "'../" + args.chime + "'"
     else:
         chimeFile = "'../sounds/chimes/" + chime + "'"
     f = open('.temp/list.txt', 'w')
