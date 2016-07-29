@@ -32,7 +32,7 @@ Note: Vocaroo deletes uploaded audio after a few months.
 
 a list of available voices can be seen by running `$ say -v '?'`
 
---chime Specify a custom chime to use. If not provided, a random built in chime will be used. use path relative to numnet directory.
+--chime Specify a custom chime to use. If not provided, a random built in chime will be used.
 
 `$ python numnet.py "pizza time" --chime "./totinos.mp3"`
 
